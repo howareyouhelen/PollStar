@@ -52,22 +52,38 @@ app.get("/", (req, res) => {
 });
 
 app.post("/summary", (req, res) => {
-  const randomPollId = generateRandomString();
-  res.redirect("/summary/${randomPollId}")
+  const pollId = generateRandomString();
+  res.redirect("/summary/${pollId}")
 })
 
 // Summary Page
-app.get("/summary/${randomPollId}", (req, res) => {
-  let userPollId = req.params.randomPollId;
-  if (userPollID === undefined) {
-    res.redirect("/")
+app.get("/summary/:pollId", (req, res) => {
+  let userPollId = req.params.pollId;
+  if (userPollId === undefined) {
+    res.status(400).redirect("/")
   } else {
-    res.render("summary/${randomPollId}")
+    res.render("summary/${pollId}")
   }
-})
+});
 
 // Voting page
+app.get("/voting/:pollId", (req, res) => {
+  let userPollId = req.params.pollId;
+  if (userPollId === undefined) {
+    res.status(400).redirect("/")
+  } else {
+    res.render("voting", {})
+  }
+});
 
+app.post("/results/${pollId}", (req, res) => {
+  //push form into DB here
+})
+
+// Result page
+app.get("/results/${pollId}", (req, res) => {
+  //display info from DB
+})
 
 
 
