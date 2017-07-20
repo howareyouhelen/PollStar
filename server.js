@@ -52,8 +52,9 @@ app.get("/", (req, res) => {
 });
 
 app.post("/summary", (req, res) => {
-  const pollId = generateRandomString();
-  res.redirect("/summary/${pollId}")
+  // const pollId = generateRandomString();
+  const pollId = "1234";
+  res.redirect("/summary/:pollId")
 })
 
 // Summary Page
@@ -62,7 +63,8 @@ app.get("/summary/:pollId", (req, res) => {
   if (userPollId === undefined) {
     res.status(400).redirect("/")
   } else {
-    res.render("summary/${pollId}")
+    // res.render("summary/:pollId")
+    res.send("haaskdjfh")
   }
 });
 
@@ -72,17 +74,19 @@ app.get("/voting/:pollId", (req, res) => {
   if (userPollId === undefined) {
     res.status(400).redirect("/")
   } else {
-    res.render("voting", {})
+    res.render("voting/:pollId", {})
   }
 });
 
-app.post("/results/${pollId}", (req, res) => {
+app.post("/results/:pollId", (req, res) => {
   //push form into DB here
+  res.send("haha results page not done yet")
 })
 
 // Result page
-app.get("/results/${pollId}", (req, res) => {
+app.get("/results/:pollId", (req, res) => {
   //display info from DB
+  res.send("hello")
 })
 
 
