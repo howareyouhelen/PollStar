@@ -12,6 +12,17 @@
   </head>
 
   <body>
-    <h1>HOME PAGE!</h1>
+    <h1>Welcome to PollStar</h1>
+    <div class="poll">
+      <form class="poll input" method="POST" action="/summary">
+        <label for="POST-poll_name">Create Poll Name:</label>
+        <input type="text" id="poll_name">
+        <div class="email pollname">
+          <label for="email">Email: </label>
+          <input type="email" id="email" name="email" placeholder="example@example.com">
+        </div>
+        <input type="submit" value="Create Poll">
+      </form>
+    </div>
   </body>
 </html>
