@@ -13,5 +13,14 @@
 
   <body>
     <h1>RESULT PAGE</h1>
+    <h2><%= name %></h2>
+    <ol>
+      <% results.forEach((result) => { %>
+        <li>
+          <%= result.choice %>
+          <%= result.weight %>
+        </li>
+      <% }) %>
+    </ul>
   </body>
 </html>
