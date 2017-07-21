@@ -7,22 +7,41 @@
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
     <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
 
+    <script src="https://use.fontawesome.com/3770941ad6.js"></script>
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
 
   <body>
-    <h1>Welcome to PollStar</h1>
-    <div class="poll">
-      <form class="poll input" method="POST" action="/summary">
-        <label for="POST-poll_name">Create Poll Name:</label>
-        <input type="text" id="poll_name">
-        <div class="email pollname">
-          <label for="email">Email: </label>
-          <input type="email" id="email" name="email" placeholder="example@example.com">
-        </div>
-        <input type="submit" value="Create Poll">
-      </form>
-    </div>
+    <section>
+      <h1>Welcome to PollStar</h1>
+      <div class="poll">
+        <form class="poll input" method="POST" action="/summary">
+          <label for="POST-poll_name">Create Poll Name:</label>
+          <input type="text" id="poll_name">
+          <div>
+            <ul>
+              <li> <label>Choice </label><input type="text" name="choice"><button type="button" class="trash"> <i class="fa fa-trash-o" aria-hidden="true"></i></button></li>
+              <li> <label>Choice </label><input type="text" name="choice"><button type="button" class="trash"> <i class="fa fa-trash-o" aria-hidden="true"></i></button></li>
+              <li> <label>Choice </label><input type="text" name="choice"><button type="button" class="trash"> <i class="fa fa-trash-o" aria-hidden="true"></i></button></li>
+            </ul>
+              <button type="button" class="create-choice">Add Choice</button>
+          </div>
+          <div class="email pollname">
+            <label for="email">Email: </label>
+            <input type="email" id="email" name="email" placeholder="example@example.com" style="width: 200px">
+          </div>
+          <input type="submit" value="Create Poll">
+        </form>
+      </div>
+    </section>
+      <script>
+        $(document).ready(function(){
+          $(".create-choice").click(function(){
+            event.preventDefault();
+            $("ul").append('<li> <label>Choice </label><input type="text" name="choice"><button type="button" class="trash"> <i class="fa fa-trash-o" aria-hidden="true"></i></button></li>');
+          })
+        });
+      </script>
   </body>
 </html>
