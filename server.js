@@ -51,19 +51,48 @@ app.get("/", (req, res) => {
   res.render("index");
 });
 
+function insertchoice(choice, foreignkey){
+  return knex('poll_result').insert({choice: choice, poll_info_id: foreignkey, weight: 0}, 'id')
+  .then((results)=>{
+  })
+}
 app.post("/summary", (req, res) => {
   const pollId = generateRandomString();
-  res.redirect("/summary/:pollId")
+  knex('poll_info').insert({name: req.body.name, email: req.body.email, pollid: pollId}, 'id')
+  .then((results)=>{
+    const foreignkey = results[0]
+    for(let choice of req.body.choice){
+      insertchoice(choice, foreignkey);
+    }
+  res.redirect(`/summary/${pollId}`)
+  })
+    .catch((error) => {
+    res.send(error);
+  })
+
 })
 
 // Summary Page
 app.get("/summary/:pollId", (req, res) => {
-  let userPollId = req.params.pollId;
+  const userPollId = req.params.pollId;
   if (userPollId === undefined) {
     res.status(400).redirect("/")
-  } else {
-    res.render("summary/:pollId")
+    return
   }
+  knex.select('poll_info.id', 'name', 'email', 'pollid')
+    .from('poll_info')
+    .where('poll_info.pollid', userPollId)
+    .then((results) => {
+      console.log("hehe", results)
+      console.log('label', results)
+      res.render("summary", {
+        userPollKey: userPollId,
+        name: results[0].name,
+        email: results[0].email
+      })
+      // res.render(`/summary/${userPollId}`)
+    })
+
 });
 
 // Voting page
@@ -71,8 +100,10 @@ app.get("/voting/:pollId", (req, res) => {
   let userPollId = req.params.pollId;
   if (userPollId === undefined) {
     res.status(400).redirect("/")
-  } else {
-    res.render("voting/:pollId", {})
+    return
+  }
+    res.render("voting", {
+    })
   }
 });
 
