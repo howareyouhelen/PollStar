@@ -52,8 +52,7 @@ app.get("/", (req, res) => {
 });
 
 app.post("/summary", (req, res) => {
-  // const pollId = generateRandomString();
-  const pollId = "1234";
+  const pollId = generateRandomString();
   res.redirect("/summary/:pollId")
 })
 
@@ -63,8 +62,7 @@ app.get("/summary/:pollId", (req, res) => {
   if (userPollId === undefined) {
     res.status(400).redirect("/")
   } else {
-    // res.render("summary/:pollId")
-    res.send("haaskdjfh")
+    res.render("summary/:pollId")
   }
 });
 
@@ -85,8 +83,25 @@ app.post("/results/:pollId", (req, res) => {
 
 // Result page
 app.get("/results/:pollId", (req, res) => {
-  //display info from DB
-  res.send("hello")
+  return knex.select('poll_info.id', 'name', 'choice', 'weight')
+  .from('poll_result')
+  .join('poll_info', 'poll_result.poll_info_id', '=', 'poll_info.id')
+  .where('poll_info.pollid', req.params.pollId)
+  .orderBy('weight', 'desc')
+  .then((results) => {
+    console.log(results)
+    if (results.length > 0) {
+      res.render("results", {
+        name: results[0].name,
+        results: results
+      });
+    } else {
+      res.redirect('/');
+    }
+  })
+  .catch((error) => {
+    res.send("OH NO");
+  })
 })
 
 
