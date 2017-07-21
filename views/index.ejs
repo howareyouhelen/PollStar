@@ -20,10 +20,16 @@
           <label for="POST-poll_name">Create Poll Name:</label>
           <input type="text" id="poll_name">
           <div>
-            <ul>
-              <li> <label>Choice </label><input type="text" name="choice"><button type="button" class="trash"> <i class="fa fa-trash-o" aria-hidden="true"></i></button></li>
-              <li> <label>Choice </label><input type="text" name="choice"><button type="button" class="trash"> <i class="fa fa-trash-o" aria-hidden="true"></i></button></li>
-              <li> <label>Choice </label><input type="text" name="choice"><button type="button" class="trash"> <i class="fa fa-trash-o" aria-hidden="true"></i></button></li>
+            <ul id="choices">
+              <li>
+                <label>Choice </label><input type="text" name="choice"><button type="button" class="trash"> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+              </li>
+              <li>
+                <label>Choice </label><input type="text" name="choice"><button type="button" class="trash"> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+              </li>
+              <li>
+                <label>Choice </label><input type="text" name="choice"><button type="button" class="trash"> <i class="fa fa-trash-o" aria-hidden="true"></i></button>
+              </li>
             </ul>
               <button type="button" class="create-choice">Add Choice</button>
           </div>
@@ -39,7 +45,12 @@
         $(document).ready(function(){
           $(".create-choice").click(function(){
             event.preventDefault();
-            $("ul").append('<li> <label>Choice </label><input type="text" name="choice"><button type="button" class="trash"> <i class="fa fa-trash-o" aria-hidden="true"></i></button></li>');
+            $("#choices").append('<li><label>Choice </label><input type="text" name="choice"><button type="button" class="trash"> <i class="fa fa-trash-o" aria-hidden="true"></i></button></li>');
+
+          $(".trash").click(function() {
+          event.preventDefault();
+          $(this).parent().remove();
+          })
           })
         });
       </script>
