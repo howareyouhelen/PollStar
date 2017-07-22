@@ -83,8 +83,6 @@ app.get("/summary/:pollId", (req, res) => {
     .from('poll_info')
     .where('poll_info.pollid', userPollId)
     .then((results) => {
-      console.log("hehe", results)
-      console.log('label', results)
       res.render("summary", {
         userPollKey: userPollId,
         name: results[0].name,
@@ -95,20 +93,37 @@ app.get("/summary/:pollId", (req, res) => {
 
 });
 
-// Voting page
+//Voting Page
 app.get("/voting/:pollId", (req, res) => {
-  let userPollId = req.params.pollId;
-  if (userPollId === undefined) {
-    res.status(400).redirect("/")
-    return
-  }
-    res.render("voting", {
-    })
-  }
-});
+  return knex.select('*').from('poll_info')
+  .join('poll_result', 'poll_info.id', '=', 'poll_result.poll_info_id')
+  .where('pollid', req.params.pollId)
+  .then((results) => {
+    console.log(results)
+    if (results.length > 0) {
+      res.render("voting", {
+        name: results[0].name,
+        results: results
+      });
+    } else {
+      res.redirect('/');
+    }
+  })
+  .catch((error) => {
+    res.send(error);
+  })
+})
 
 app.post("/results/:pollId", (req, res) => {
   //push form into DB here
+  //id & weight , add weights then update
+  return knex.select('weight', 'id')
+  .from('poll_result')
+  //sum weight that wherein choice poll_info_id is equal to poll_info.id
+  .where('poll_info_id', '=', 'poll_info.id')
+  .update([{
+    weight: weight//might be wrong
+  }])
   res.send("haha results page not done yet")
 })
 
@@ -134,16 +149,6 @@ app.get("/results/:pollId", (req, res) => {
     res.send("OH NO");
   })
 })
-
-
-
-// app.get('/poll_info', (req, res) => {
-//   res.json({
-//     id: 1,
-//     email: 'joel@joel.joel',
-//     name: 'joel'
-//   })
-// })
 
 app.listen(PORT, () => {
   console.log("Example app listening on port " + PORT);
