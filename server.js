@@ -58,6 +58,9 @@ function insertchoice(choice, foreignkey){
 }
 app.post("/summary", (req, res) => {
   const pollId = generateRandomString();
+  if (req.body.email === "") {
+    res.send("Please enter email first")
+  } else {
   knex('poll_info').insert({name: req.body.name, email: req.body.email, pollid: pollId}, 'id')
   .then((results)=>{
     const foreignkey = results[0]
@@ -69,7 +72,7 @@ app.post("/summary", (req, res) => {
     .catch((error) => {
     res.send(error);
   })
-
+}
 })
 
 // Summary Page
@@ -114,17 +117,53 @@ app.get("/voting/:pollId", (req, res) => {
   })
 })
 
-app.post("/results/:pollId", (req, res) => {
-  //push form into DB here
-  //id & weight , add weights then update
-  return knex.select('weight', 'id')
-  .from('poll_result')
-  //sum weight that wherein choice poll_info_id is equal to poll_info.id
-  .where('poll_info_id', '=', 'poll_info.id')
-  .update([{
-    weight: weight//might be wrong
-  }])
-  res.send("haha results page not done yet")
+app.post("/results", (req, res) => {
+
+
+
+  var result3 = req.body.result3;
+  var result2 = req.body.result2;
+  var result1 = req.body.result1;
+
+  knex.select('weight').from('poll_result')
+  .where('id','=',result3)
+  .then((result)=>{
+
+    knex("poll_result").where("id",result3)
+    .update({weight: (result[0].weight+3)})
+    .then(function (count) {
+    // console.log(count);
+    })
+    //console.log(result[0].weight);
+  });
+  //Update the values in the database.
+
+  knex.select('weight').from('poll_result')
+  .where('id','=',result2)
+  .then((result)=>{
+
+    knex("poll_result").where("id",result2)
+    .update({weight: (result[0].weight+2)})
+    .then(function (count) {
+    // console.log(count);
+    })
+    //console.log(result[0].weight);
+  });
+
+  knex.select('weight').from('poll_result')
+  .where('id','=',result1)
+  .then((result)=>{
+
+    knex("poll_result").where("id",result1)
+    .update({weight: (result[0].weight+1)})
+    .then(function (count) {
+    // console.log(count);
+    })
+    //console.log(result[0].weight);
+  });
+
+
+  res.send("HAHHAHAHAH THIS REALLY WORKS IN THE DB.")
 })
 
 // Result page

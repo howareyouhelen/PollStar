@@ -16,17 +16,18 @@
       <h1>VOTING PAGE</h1>
       <h2>Poll Name: <%= name %></h2>
         <ol>
-          <form id="votingpoll" method="post" action="/">
+          <form id="votingpoll" method="post" action="/results">
             <% results.forEach((result, i) => { %>
             <% let weight = results.length - i %>
             <li>
-              <select name="result-<%= weight %>">
+              <select name="result<%= weight %>">
                 <% results.forEach((choice) => { %>
 
-                    <option name="option-<%= weight %>" value="<%= choice.id %>"><%= choice.choice %></option>
+                    <option name="option<%= weight %>" value="<%= choice.id %>"><%= choice.choice %></option>
 
 
                <% }) %>
+               <input hidden <%=poll_id>
               </select>
             </li>
             <% }) %>
