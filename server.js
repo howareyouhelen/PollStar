@@ -39,6 +39,7 @@ function send_poll_email(pollId, fromEmail, toEmail) {
     console.log(typeof content)
     var mail = new helper.Mail(fromEmail, subject, toEmail, content);
     console.log("popop", mail)
+
     var sg = require("sendgrid")(process.env.SENDGRID_API_KEY);
     console.log("whyyyyyyy", sg)
     var request = sg.emptyRequest({
@@ -92,7 +93,8 @@ function insertchoice(choice, foreignkey){
 app.post("/summary", (req, res) => {
   const pollId = generateRandomString();
   if (req.body.email === "") {
-    res.send("Please enter email first")
+    // res.send("Please enter email first")
+    res.redirect('/');
   } else {
   knex('poll_info').insert({name: req.body.name, email: req.body.email, pollid: pollId}, 'id')
   .then((results)=>{
@@ -107,47 +109,8 @@ app.post("/summary", (req, res) => {
   })
   }
   send_poll_email()
-
 })
 
-// Wes' code
-//   var http = require("https");
-
-// var options = {
-//   "method": "POST",
-//   "hostname": "api.sendgrid.com",
-//   "port": null,
-//   "path": "/v3/mail/send",
-//   "headers": {
-//     "authorization": "Bearer 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",
-//     "content-type": "application/json"
-//   }
-// };
-
-// var req = http.request(options, function (res) {
-//   var chunks = [];
-
-//   res.on("data", function (chunk) {
-//     chunks.push(chunk);
-//   });
-
-//   res.on("end", function () {
-//     var body = Buffer.concat(chunks);
-//     console.log(body.toString());
-//   });
-// });
-
-// req.write(JSON.stringify({ personalizations:
-//    [ { to: [ { email: 'howareyouhelen@hotmail.com', name: 'John Doe' } ],
-//        subject: 'Hello, World!' } ],
-//   from: { email: 'sam.smith@example.com', name: 'Sam Smith' },
-//   reply_to: { email: 'sam.smith@example.com', name: 'Sam Smith' },
-//   subject: 'Hello, World!',
-//   content:
-//    [ { type: 'text/html',
-//        value: '<html><p>Hello, world!</p></html>' } ] }));
-// req.end();
-// })
 
 // Summary Page
 app.get("/summary/:pollId", (req, res) => {
@@ -250,7 +213,7 @@ app.post("/results", (req, res) => {
     .then(function (count) {
     })
   });
-  res.send("HAHHAHAHAH THIS REALLY WORKS IN THE DB. You don't get to see the result, sorry.")
+  res.redirect('/')
 })
 
 // Result page
