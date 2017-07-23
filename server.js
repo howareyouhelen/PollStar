@@ -17,6 +17,7 @@ const knexLogger  = require('knex-logger');
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/test_result");
 
+//Generates random string for pollid code for poll info table
 function generateRandomString() {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -25,37 +26,39 @@ function generateRandomString() {
   return text;
 };
 
-function send_poll_email(creatorEmail, createdPollId) {
+function send_poll_email(creatorEmail, pollId) {
 
-  // knex.select('*')
+  // knex.select('name')
   // .from('poll_info')
   // .then((rows) => {
-    const helper = require('sendgrid').mail;
-    const toEmail = creatorEmail;
-    const fromEmail = new helper.Email("PollStar@example.com");
-    console.log(helper)
-    const subject = "Here are your poll information";
-    const content = new helper.Content("Results link: ", "http://localhost:8080/results/:", createdPollId, " ", "Voting link: ", "http://localhost:8080/voting/:", createdPollId);
-    console.log(typeof content)
-    const mail = new helper.Mail(fromEmail, subject, toEmail, content);
-    console.log("popop", mail)
-    const sg = require("sendgrid")(process.env.SENDGRID_API_KEY);
-    console.log("whyyyyyyy", sg)
-    const request = sg.emptyRequest({
-      method: "POST",
-      path: "/v3/mail/send",
-      body: mail.toJSON()
-    });
+  console.log("Parameters----->", creatorEmail, createdPollId)
+  const helper = require('sendgrid').mail;
+  const fromEmail = new helper.Email("links@pollstar.com");
+  const toEmail = new helper.Email("juanvictor.cortez@gmail.com");
+  const subject = "Here are your poll information";
+  //content is not showing up
+  const content = new helper.Content("text/plain", " Voting link: http://localhost:8080/voting/createdPollId Results link:  http://localhost:8080/results/createdPollId");
+  console.log("090909content", content)
+  const mail = new helper.Mail(fromEmail, subject, toEmail, content);
+  
+  console.log("popop", mail)
 
-    sg.API(request, function (error, response) {
-      if (error) {
-        console.log("Error response received", error);
-      }
-      console.log(response.statusCode);
-      console.log(response.body);
-      console.log(response.headers);
-    });
-  // })
+  //tried to use environment to avoid hard coding api key, however, calling the environment turns the value undefined
+  const sg = require('sendgrid')('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');
+  const request = sg.emptyRequest({
+    method: 'POST',
+    path: '/v3/mail/send',
+    body: mail.toJSON()   
+  });
+ 
+  sg.API(request, function (error, response) {
+    if (error) {
+      console.log("Error response received", error);
+    }
+    console.log(response.statusCode);
+    console.log(response.body);
+    console.log(response.headers);
+  });
 }
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
