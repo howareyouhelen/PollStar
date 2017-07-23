@@ -13,6 +13,7 @@ const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
+const helper        = require('sendgrid').mail;
 
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/test_result");
@@ -24,6 +25,38 @@ function generateRandomString() {
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return text;
 };
+
+function send_poll_email(pollId, fromEmail, toEmail) {
+
+  knex.select('*')
+  .from('poll_info')
+  .then((rows) => {
+    var toEmail = rows[0].email;
+    var fromEmail = new helper.Email("PollStar@example.com");
+    console.log(helper)
+    var subject = "Here are your poll information";
+    var content = new helper.Content("Results link: ", "http://localhost:8080/results/:", pollId, " ", "Voting link: ", "http://localhost:8080/voting/:", pollId);
+    console.log(typeof content)
+    var mail = new helper.Mail(fromEmail, subject, toEmail, content);
+    console.log("popop", mail)
+    var sg = require("sendgrid")(process.env.SENDGRID_API_KEY);
+    console.log("whyyyyyyy", sg)
+    var request = sg.emptyRequest({
+      method: "POST",
+      path: "/v3/mail/send",
+      body: mail.toJSON()
+    });
+
+    sg.API(request, function (error, response) {
+      if (error) {
+        console.log("Error response received", error);
+      }
+      console.log(response.statusCode);
+      console.log(response.body);
+      console.log(response.headers);
+    });
+  })
+}
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
@@ -72,8 +105,49 @@ app.post("/summary", (req, res) => {
     .catch((error) => {
     res.send(error);
   })
-}
+  }
+  send_poll_email()
+
 })
+
+// Wes' code
+//   var http = require("https");
+
+// var options = {
+//   "method": "POST",
+//   "hostname": "api.sendgrid.com",
+//   "port": null,
+//   "path": "/v3/mail/send",
+//   "headers": {
+//     "authorization": "Bearer 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",
+//     "content-type": "application/json"
+//   }
+// };
+
+// var req = http.request(options, function (res) {
+//   var chunks = [];
+
+//   res.on("data", function (chunk) {
+//     chunks.push(chunk);
+//   });
+
+//   res.on("end", function () {
+//     var body = Buffer.concat(chunks);
+//     console.log(body.toString());
+//   });
+// });
+
+// req.write(JSON.stringify({ personalizations:
+//    [ { to: [ { email: 'howareyouhelen@hotmail.com', name: 'John Doe' } ],
+//        subject: 'Hello, World!' } ],
+//   from: { email: 'sam.smith@example.com', name: 'Sam Smith' },
+//   reply_to: { email: 'sam.smith@example.com', name: 'Sam Smith' },
+//   subject: 'Hello, World!',
+//   content:
+//    [ { type: 'text/html',
+//        value: '<html><p>Hello, world!</p></html>' } ] }));
+// req.end();
+// })
 
 // Summary Page
 app.get("/summary/:pollId", (req, res) => {
@@ -111,6 +185,7 @@ app.get("/voting/:pollId", (req, res) => {
     } else {
       res.redirect('/');
     }
+    console.log(results)
   })
   .catch((error) => {
     res.send(error);
@@ -119,24 +194,42 @@ app.get("/voting/:pollId", (req, res) => {
 
 app.post("/results", (req, res) => {
 
+//   knex.select('poll_info_id').from('poll_result')
+//   .where('id', '=', req.body.result3)
+//   .then((result)=>{
+//     console.log(result[0].poll_info_id)
+//   })
 
+// const array_result = [];
+// array_result.push(req.body.result)
 
+  var result4 = req.body.result4;
   var result3 = req.body.result3;
   var result2 = req.body.result2;
   var result1 = req.body.result1;
+
+
+  //Update the values in the database.
+
+  knex.select('weight').from('poll_result')
+  .where('id','=',result4)
+  .then((result)=>{
+
+    knex("poll_result").where("id",result4)
+    .update({weight: (result[0].weight+4)})
+    .then(function (count) {
+    })
+  });
 
   knex.select('weight').from('poll_result')
   .where('id','=',result3)
   .then((result)=>{
 
-    knex("poll_result").where("id",result3)
+    knex("poll_result").where("id",result2)
     .update({weight: (result[0].weight+3)})
     .then(function (count) {
-    // console.log(count);
     })
-    //console.log(result[0].weight);
   });
-  //Update the values in the database.
 
   knex.select('weight').from('poll_result')
   .where('id','=',result2)
@@ -145,9 +238,7 @@ app.post("/results", (req, res) => {
     knex("poll_result").where("id",result2)
     .update({weight: (result[0].weight+2)})
     .then(function (count) {
-    // console.log(count);
     })
-    //console.log(result[0].weight);
   });
 
   knex.select('weight').from('poll_result')
@@ -157,13 +248,9 @@ app.post("/results", (req, res) => {
     knex("poll_result").where("id",result1)
     .update({weight: (result[0].weight+1)})
     .then(function (count) {
-    // console.log(count);
     })
-    //console.log(result[0].weight);
   });
-
-
-  res.send("HAHHAHAHAH THIS REALLY WORKS IN THE DB.")
+  res.send("HAHHAHAHAH THIS REALLY WORKS IN THE DB. You don't get to see the result, sorry.")
 })
 
 // Result page
