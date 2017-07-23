@@ -13,7 +13,6 @@ const knexConfig  = require("./knexfile");
 const knex        = require("knex")(knexConfig[ENV]);
 const morgan      = require('morgan');
 const knexLogger  = require('knex-logger');
-const helper        = require('sendgrid').mail;
 
 // Seperated Routes for each Resource
 const usersRoutes = require("./routes/test_result");
@@ -26,22 +25,23 @@ function generateRandomString() {
   return text;
 };
 
-function send_poll_email(pollId, fromEmail, toEmail) {
+function send_poll_email(creatorEmail, createdPollId) {
 
-  knex.select('*')
-  .from('poll_info')
-  .then((rows) => {
-    var toEmail = rows[0].email;
-    var fromEmail = new helper.Email("PollStar@example.com");
+  // knex.select('*')
+  // .from('poll_info')
+  // .then((rows) => {
+    const helper = require('sendgrid').mail;
+    const toEmail = creatorEmail;
+    const fromEmail = new helper.Email("PollStar@example.com");
     console.log(helper)
-    var subject = "Here are your poll information";
-    var content = new helper.Content("Results link: ", "http://localhost:8080/results/:", pollId, " ", "Voting link: ", "http://localhost:8080/voting/:", pollId);
+    const subject = "Here are your poll information";
+    const content = new helper.Content("Results link: ", "http://localhost:8080/results/:", createdPollId, " ", "Voting link: ", "http://localhost:8080/voting/:", createdPollId);
     console.log(typeof content)
-    var mail = new helper.Mail(fromEmail, subject, toEmail, content);
+    const mail = new helper.Mail(fromEmail, subject, toEmail, content);
     console.log("popop", mail)
-    var sg = require("sendgrid")(process.env.SENDGRID_API_KEY);
+    const sg = require("sendgrid")(process.env.SENDGRID_API_KEY);
     console.log("whyyyyyyy", sg)
-    var request = sg.emptyRequest({
+    const request = sg.emptyRequest({
       method: "POST",
       path: "/v3/mail/send",
       body: mail.toJSON()
@@ -55,7 +55,7 @@ function send_poll_email(pollId, fromEmail, toEmail) {
       console.log(response.body);
       console.log(response.headers);
     });
-  })
+  // })
 }
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -89,25 +89,25 @@ function insertchoice(choice, foreignkey){
   .then((results)=>{
   })
 }
+
 app.post("/summary", (req, res) => {
   const pollId = generateRandomString();
   if (req.body.email === "") {
     res.send("Please enter email first")
   } else {
-  knex('poll_info').insert({name: req.body.name, email: req.body.email, pollid: pollId}, 'id')
-  .then((results)=>{
-    const foreignkey = results[0]
-    for(let choice of req.body.choice){
+    knex('poll_info').insert({name: req.body.name, email: req.body.email, pollid: pollId}, 'id')
+    .then((results)=>{
+      const foreignkey = results[0]
+      for(let choice of req.body.choice){
       insertchoice(choice, foreignkey);
-    }
-  res.redirect(`/summary/${pollId}`)
-  })
+      }
+    })
     .catch((error) => {
     res.send(error);
   })
   }
-  send_poll_email()
-
+  send_poll_email(req.body.email,`${pollId}`)
+  res.redirect(`/summary/${pollId}`)
 })
 
 // Wes' code
