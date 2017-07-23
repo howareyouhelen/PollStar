@@ -1,0 +1,24 @@
+<!-- summary ejs file -->
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+    </head>
+    <body>
+        <h1>Poll Created!</h1>
+        <div>
+           <p>Email: <%= poll_info.email %> Poll ID: <%= poll_info.id %></p>
+           <p> Poll Name: <%= poll_info.name %></p>
+        </div>
+        <div>
+            <p>Share your poll with this link: <%= poll_info.share %></p>
+            <p>This is your results page: <%= poll_info.result %></p>
+        </div>
+        <div>
+            <p><a href="/">Make Another Poll Here!</a></p>
+        </div>
+    </body>
+</html>
