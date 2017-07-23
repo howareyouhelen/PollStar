@@ -4,22 +4,33 @@
         <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/style.css" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+          <!-- fonts -->
+         <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet">
+
+        <link href="/styles/summary.css" rel="stylesheet">
+
+        <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
+        <script type="text/javascript" src="/scripts/app.js"></script>
+
     </head>
     <body>
         <section>
             <h1>Poll Created!</h1>
-            <div>
-                <p><%= email %>: <%= userPollKey %></p>
+            <div class="summary container">
+                <p>Your Email <%= email %>: Unique poll ID <%= userPollKey %></p>
                 <p><%= name %></p>
             </div>
-            <div>
-                <p>Use this link to share with your voters: <a href="/voting/<%=  userPollKey %>"> link </a></p>
-                <p>Use this link to see the results of your poll: <a href="/results/<%=  userPollKey %>"> link</a></p>
+            <div class="link container">
+                <p>Use this link to share with your voters: <a href="/voting/<%=  userPollKey %>">VOTE </a></p>
+                <p>Use this link to see the results of your poll: <a href="/results/<%=  userPollKey %>">SEE RESULTS</a></p>
             </div>
-            <div>
+            <div class="home container">
                 <p><a href="/">Make Another Poll Here!</a></p>
             </div>
         </section>
+         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     </body>
 </html>

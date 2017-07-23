@@ -1,7 +1,97 @@
 body {
-  background-color: #EEE;
+  background-size: cover;
+  background-position: center center;
+  background: url('https://www.freewebheaders.com/wordpress/wp-content/gallery/high-tech-hero-headers/blue-digital-matrix-computer-technology-hero-header.jpg') 50% 0 repeat-y fixed;
+  color: #fffff0;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
 
-  h1 {
-    color: #244751;
-  }
+#createpoll {
+  box-shadow: none;
+}
+
+#home {
+  margin-top: 100px;
+}
+
+#home .create-choice {
+  background: #000000 !important;
+  border-color: transparent;
+  border-radius: 4px;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 14px 52px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  transition: all 0.2s ease-in-out;
+}
+
+#home .create-choice:hover {
+  background: #ffa400 !important;
+}
+
+#home .create-poll {
+  background: #000000;
+  border: none;
+  border-color: transparent;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 14px 52px;
+  margin-top: 40px;
+  transition: all 0.2s ease-in-out;
+}
+
+#home .create-poll:hover {
+  background: #ffa400;
+}
+
+h1 {
+  color: #ffa400;
+  font-family: 'Audiowide', cursive;
+  font-size: 4em;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.form-data {
+  text-align: center;
+}
+.container {
+  text-align: center;
+  margin-top: 2em;
+}
+
+.email {
+  text-shadow: -1px 0 black, 0 1px black,
+      1px 0 black, 0 -1px black
+}
+.pollinput {
+  display: inline-block;
+  text-align: left;
+}
+#choices {
+ padding-left: 0px;
+}
+
+input {
+    border: 1px solid #ffa400;
+    border-radius: 4px;
+    box-shadow: 0px 0px 4px #ffa400;
+    color: black;
+}
+
+ul {
+  list-style-type: none;
+}
+
+label {
+  margin-right: 10px;
+}
+
+.trash {
+  background-color: transparent;
+  border-color: transparent;
+  font-size: 2em;
 }

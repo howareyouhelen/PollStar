@@ -5,35 +5,45 @@
 
     <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" type="text/css" />
     <link rel="stylesheet" href="/vendor/border-box.css" type="text/css" />
-    <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Audiowide" rel="stylesheet">
+
+    <link rel="stylesheet" href="/styles/voting.css" type="text/css" />
 
     <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
     <script type="text/javascript" src="/scripts/app.js"></script>
   </head>
 
   <body>
-    <section>
       <h1>VOTING PAGE</h1>
-      <h2>Poll Name: <%= name %></h2>
-        <ol>
-          <form id="votingpoll" method="post" action="/results">
-            <% results.forEach((result, i) => { %>
-            <% let weight = results.length - i %>
-            <li>
-              <select name="result<%= weight %>">
-                <% results.forEach((choice) => { %>
-
-                    <option name="option<%= weight %>" value="<%= choice.id %>"><%= choice.choice %></option>
-
-
-               <% }) %>
-               <input hidden <%=poll_id>
-              </select>
-            </li>
-            <% }) %>
-          <input type="submit" name="submit">
-          </form>
-        </ol>
-    </section>
+      <div class="container">
+        <div class="row">
+          <div class="vote">
+            <section>
+              <h2>Poll Name: <%= name %></h2>
+                <ol class ="ordered">
+                  <form id="votingpoll" method="post" action="/results">
+                    <% results.forEach((result, i) => { %>
+                    <% let weight = results.length - i %>
+                    <li>
+                      <select name="result<%= weight %>">
+                        <% results.forEach((choice) => { %>
+                            <option name="option<%= weight %>" value="<%= choice.id %>"><%= choice.choice %></option>
+                       <% }) %>
+                       <input type="hidden" name="fk" value="<%= result.poll_info_id %>">
+                      </select>
+                    </li>
+                    <% }) %>
+                  <input class="submit" type="submit" name="submit">
+                  </form>
+                </ol>
+            </section>
+          </div>
+        </div>
+      </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
   </body>
 </html>
