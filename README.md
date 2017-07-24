@@ -4,8 +4,8 @@ A web app that helps groups of friends to vote on a preferred choice (using rank
 
 ## Final Product
 
-!["Home page with input"](https://github.com/howareyouhelen/PollStar/blob/master/docs/home-page.png)
-!["Summary page after creating poll"](#)
+!["Home page with input"](https://github.com/howareyouhelen/PollStar/blob/master/docs/homepage.png)
+!["Summary page after creating poll"](https://github.com/howareyouhelen/PollStar/blob/master/docs/summary.png)
 ![Voting page"](https://github.com/howareyouhelen/PollStar/blob/master/docs/voting-page.png)
 !["Results page"](https://github.com/howareyouhelen/PollStar/blob/master/docs/result-page.png)
 
