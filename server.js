@@ -157,7 +157,7 @@ app.post("/results", (req, res) => {
   knex.select('weight').from('poll_result')
   .where('id','=',result3)
   .then((result)=>{
-    knex("poll_result").where("id",result2)
+    knex("poll_result").where("id",result3)
     .update({weight: (result[0].weight+3)})
     .then(function (count) {
     })
