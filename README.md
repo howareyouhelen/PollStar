@@ -1,4 +1,13 @@
-# Node Skeleton
+# Decision Maker App: Pollstar 
+
+A web app that helps groups of friends to vote on a preferred choice (using ranked voting), for example: "What movie should we see next Friday?".
+
+## Final Product
+
+!["Home page with input"](https://github.com/howareyouhelen/PollStar/blob/master/docs/home-page.png)
+!["Summary page after creating poll"](#)
+![Voting page"](https://github.com/howareyouhelen/PollStar/blob/master/docs/voting-page.png)
+!["Results page"](https://github.com/howareyouhelen/PollStar/blob/master/docs/result-page.png)
 
 ## Project Setup
 
