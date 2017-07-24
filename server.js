@@ -104,17 +104,14 @@ app.post("/summary", (req, res) => {
     res.send(error);
   })
   }
-  //send_poll_email(req.body.email,`${pollId}`)
+  //Sendgrid API template: sends voting and result link to the creator
   const helper = require('sendgrid').mail;
   const fromEmail = new helper.Email("links@pollstar.com");
   const toEmail = new helper.Email(`${req.body.email}`);
-  const subject = "Here are your poll information";
-  //content 
+  const subject = "Here are your poll information"; 
   const content = new helper.Content("text/plain", `Voting link: http://localhost:8080/voting/${pollId} Results link:  http://localhost:8080/results/${pollId}`);
-  
   const mail = new helper.Mail(fromEmail, subject, toEmail, content);
-  
-  console.log("popop", mail)
+  //Start of API request command
   const sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
   const request = sg.emptyRequest({
     method: 'POST',
@@ -147,11 +144,8 @@ app.get("/summary/:pollId", (req, res) => {
         name: results[0].name,
         email: results[0].email
       })
-      // res.render(`/summary/${userPollId}`)
-    })
-
+  })
 });
-
 //Voting Page
 app.get("/voting/:pollId", (req, res) => {
   return knex.select('*').from('poll_info')
@@ -216,6 +210,7 @@ app.post("/results", (req, res) => {
     .then(function (count) {
     })
   });
+  //Sends email to the creator when a user submits a vote
   knex("poll_info")
   .select("email")
   .where("pollid", "=", `${req.params.pollId}`)
@@ -225,7 +220,6 @@ app.post("/results", (req, res) => {
   //need to get email from the data base
   const toEmail = new helper.Email(results[0].email);
   const subject = "Someone Voted!";
-  //content 
   const content = new helper.Content("text/plain", `Someone just voted on your poll, Check it out here:  http://localhost:8080/results/${pollId}`);
   const mail = new helper.Mail(fromEmail, subject, toEmail, content);
   
@@ -244,7 +238,7 @@ app.post("/results", (req, res) => {
     console.log(response.headers);
     })
   })
-  res.send("HAHHAHAHAH THIS REALLY WORKS IN THE DB. You don't get to see the result, sorry.")
+  res.send("Please see results page for the count")
 })
 
 // Result page
