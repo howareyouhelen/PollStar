@@ -26,37 +26,6 @@ function generateRandomString() {
   return text;
 };
 
-
-// function send_poll_email(creatorEmail, createdPollId) {
-
-  // console.log("Parameters----->", creatorEmail, createdPollId)
-  // const helper = require('sendgrid').mail;
-  // const fromEmail = new helper.Email("links@pollstar.com");
-  // const toEmail = new helper.Email("juanvictor.cortez@gmail.com");
-  // const subject = "Here are your poll information";
-  // //content
-  // const content = new helper.Content("text/plain", " Voting link: http://localhost:8080/voting/ + createdPollId + Results link:  http://localhost:8080/results/" + createdPollId);
-
-  // const mail = new helper.Mail(fromEmail, subject, toEmail, content);
-
-  // console.log("popop", mail)
-  // const sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
-  // const request = sg.emptyRequest({
-  //   method: 'POST',
-  //   path: '/v3/mail/send',
-  //   body: mail.toJSON()
-  // });
-
-  // sg.API(request, function (error, response) {
-  //   if (error) {
-  //     console.log("Error response received", error);
-  //   }
-  //   console.log(response.statusCode);
-  //   console.log(response.body);
-  //   console.log(response.headers);
-  // });
-// }
-
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
@@ -110,17 +79,10 @@ app.post("/summary", (req, res) => {
   const helper = require('sendgrid').mail;
   const fromEmail = new helper.Email("links@pollstar.com");
   const toEmail = new helper.Email(`${req.body.email}`);
-<<<<<<< HEAD
-  const subject = "Here are your poll information"; 
-  const content = new helper.Content("text/plain", `Voting link: http://localhost:8080/voting/${pollId} Results link:  http://localhost:8080/results/${pollId}`);
-  const mail = new helper.Mail(fromEmail, subject, toEmail, content);
-  //Start of API request command
-=======
   const subject = "Here is your poll information";
   const content = new helper.Content("text/plain", `Voting link: http://localhost:8080/voting/${pollId} Results link:  http://localhost:8080/results/${pollId}`);
   const mail = new helper.Mail(fromEmail, subject, toEmail, content);
 
->>>>>>> 42f589d067eeea06d439c9e0107aa8063bed7dd0
   const sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
   console.log("APIIIII", process.env.SENDGRID_API_KEY)
   const request = sg.emptyRequest({
@@ -138,7 +100,6 @@ app.post("/summary", (req, res) => {
   });
   res.redirect(`/summary/${pollId}`)
 })
-
 // Summary Page
 app.get("/summary/:pollId", (req, res) => {
   const userPollId = req.params.pollId;
@@ -221,27 +182,16 @@ app.post("/results", (req, res) => {
     .then(function (count) {
     })
   });
-<<<<<<< HEAD
   //Sends email to the creator when a user submits a vote
   knex("poll_info")
   .select("email")
   .where("pollid", "=", `${req.params.pollId}`)
-=======
-
-  knex('poll_info')
-  .select('email')
-  .where('pollid', '=', `${req.params.pollId}`)
->>>>>>> 42f589d067eeea06d439c9e0107aa8063bed7dd0
   .then((results) => {
   const helper = require('sendgrid').mail;
   const fromEmail = new helper.Email("links@pollstar.com");
   //need to get email from the data base
   const toEmail = new helper.Email(results[0].email);
   const subject = "Someone Voted!";
-<<<<<<< HEAD
-=======
-  //content
->>>>>>> 42f589d067eeea06d439c9e0107aa8063bed7dd0
   const content = new helper.Content("text/plain", `Someone just voted on your poll, Check it out here:  http://localhost:8080/results/${pollId}`);
   const mail = new helper.Mail(fromEmail, subject, toEmail, content);
 
@@ -260,12 +210,8 @@ app.post("/results", (req, res) => {
     console.log(response.headers);
     })
   })
-<<<<<<< HEAD
-  res.send("Please see results page for the count")
-=======
   res.redirect('/')
 
->>>>>>> 42f589d067eeea06d439c9e0107aa8063bed7dd0
 })
 
 // Result page
