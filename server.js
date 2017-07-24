@@ -26,6 +26,7 @@ function generateRandomString() {
   return text;
 };
 
+
 function send_poll_email(creatorEmail, createdPollId) {
 
   // console.log("Parameters----->", creatorEmail, createdPollId)
@@ -54,6 +55,7 @@ function send_poll_email(creatorEmail, createdPollId) {
   //   console.log(response.body);
   //   console.log(response.headers);
   // });
+=======
 }
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
@@ -91,7 +93,8 @@ function insertchoice(choice, foreignkey){
 app.post("/summary", (req, res) => {
   const pollId = generateRandomString();
   if (req.body.email === "") {
-    res.send("Please enter email first")
+    // res.send("Please enter email first")
+    res.redirect('/');
   } else {
     knex('poll_info').insert({name: req.body.name, email: req.body.email, pollid: pollId}, 'id')
     .then((results)=>{
@@ -104,6 +107,7 @@ app.post("/summary", (req, res) => {
     res.send(error);
   })
   }
+
   //send_poll_email(req.body.email,`${pollId}`)
   const helper = require('sendgrid').mail;
   const fromEmail = new helper.Email("links@pollstar.com");
@@ -131,6 +135,7 @@ app.post("/summary", (req, res) => {
   });
   res.redirect(`/summary/${pollId}`)
 })
+
 // Summary Page
 app.get("/summary/:pollId", (req, res) => {
   const userPollId = req.params.pollId;
@@ -216,6 +221,7 @@ app.post("/results", (req, res) => {
     .then(function (count) {
     })
   });
+
   knex("poll_info")
   .select("email")
   .where("pollid", "=", `${req.params.pollId}`)
@@ -244,7 +250,8 @@ app.post("/results", (req, res) => {
     console.log(response.headers);
     })
   })
-  res.send("HAHHAHAHAH THIS REALLY WORKS IN THE DB. You don't get to see the result, sorry.")
+  res.redirect('/')
+
 })
 
 // Result page
