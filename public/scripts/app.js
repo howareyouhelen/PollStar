@@ -10,6 +10,4 @@
 // });
 
 
-// // $('#votingpoll').on('submit'){
-
-// // }
+// $('#votingpoll').on('submit'{});
