@@ -81,7 +81,7 @@ app.post("/summary", (req, res) => {
   const subject = "Here is your poll information";
   const content = new helper.Content("text/plain", `Voting link: http://localhost:8080/voting/${pollId} Results link:  http://localhost:8080/results/${pollId}`);
   const mail = new helper.Mail(fromEmail, subject, toEmail, content);
-  const sg = require('sendgrid')('process.env.SENDGRID_API_KEY');
+  const sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
   const request = sg.emptyRequest({
     method: 'POST',
     path: '/v3/mail/send',
@@ -196,12 +196,12 @@ app.post("/results", (req, res) => {
     const helper = require('sendgrid').mail;
     const fromEmail = new helper.Email("links@pollstar.com");
     //need to get email from the data base
-    const toEmail = new helper.Email('result[0].email');
+    const toEmail = new helper.Email(poll_info.email);
     const subject = "Someone Voted!";
     //content
     const content = new helper.Content("text/plain", `Someone just voted on your poll`);
     const mail = new helper.Mail(fromEmail, subject, toEmail, content);
-    const sg = require('sendgrid')('process.env.SENDGRID_API_KEY');
+    const sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
     const request = sg.emptyRequest({
       method: 'POST',
       path: '/v3/mail/send',

@@ -1,0 +1,62 @@
+body {
+  background-size: cover;
+  background-position: center center;
+  background: url('https://www.freewebheaders.com/wordpress/wp-content/gallery/high-tech-hero-headers/blue-digital-matrix-computer-technology-hero-header.jpg') 50% 0 repeat-y fixed;
+  color: #fffff0;
+  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.submit {
+  background: #000000;
+  border: none;
+  border-color: transparent;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 14px 52px;
+  margin-top: 40px;
+  transition: all 0.2s ease-in-out;
+}
+
+.submit:hover {
+  background: #ffa400;
+}
+
+h1 {
+  color: #ffa400;
+  font-family: 'Audiowide', cursive;
+  font-size: 4em;
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+h2 {
+  margin-bottom: 50px;
+}
+
+.row {
+  text-align: center;
+  margin-top: 2em;
+}
+
+.vote {
+  display: inline-block;
+  text-align: left;
+}
+
+input {
+    border: 1px solid #ffa400;
+    border-radius: 4px;
+    color: black;
+}
+
+li {
+  margin-top: 20px;
+}
+
+select{
+  color: orange;
+  width: 200px;
+  height: 2em;
+}
+
