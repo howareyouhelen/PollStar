@@ -1,6 +1,6 @@
 # Decision Maker App: Pollstar 
 
-A web app that helps groups of friends to vote on a preferred choice (using ranked voting), for example: "What movie should we see next Friday?".
+Pollstar is a web app that helps groups of friends to vote on a preferred choice (using ranked voting/Borda count), for example: "What movie should we see next Friday?". It is anonymous, so it does not need a user registration/login to use the app. The creator of the poll will receive the links of the voting page and the resuts page of their poll in an email through the Sendgrid. The creator can then share the vote and result link with his/her group. 
 
 ## Final Product
 
@@ -9,30 +9,17 @@ A web app that helps groups of friends to vote on a preferred choice (using rank
 ![Voting page"](https://github.com/howareyouhelen/PollStar/blob/master/docs/voting-page.png)
 !["Results page"](https://github.com/howareyouhelen/PollStar/blob/master/docs/result-page.png)
 
-## Project Setup
-
-1. Create your own empty repo on GitHub
-2. Clone this repository (do not fork)
-  - Suggestion: When cloning, specify a different folder name that is relevant to your project
-3. Remove the git remote: `git remote rm origin`
-4. Add a remote for your origin: `git remote add origin <your github repo URL>`
-5. Push to the new origin: `git push -u origin master`
-6. Verify that the skeleton code now shows up in your repo on GitHub
-
 ## Getting Started
 
-1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`
-2. Update the .env file with your correct local information
-3. Install dependencies: `npm i`
-4. Fix to binaries for sass: `npm rebuild node-sass`
-5. Run migrations: `npm run knex migrate:latest`
-  - Check the migrations folder to see what gets created in the DB
-6. Run the seed: `npm run knex seed:run`
-  - Check the seeds file to see what gets seeded in the DB
-7. Run the server: `npm run local`
-8. Visit `http://localhost:8080/`
+1. Install dependencies: `npm i`
+2. Run migrations: `npm run knex migrate:latest`
+3. Run the seed: `npm run knex seed:run`
+4. Run the server: `npm run local`
+5. Visit `http://localhost:8080/`
 
 ## Dependencies
 
+- Bootstrap
 - Node 5.10.x or above
 - NPM 3.8.x or above
+- Sendgrid API
