@@ -74,7 +74,7 @@ app.post("/summary", (req, res) => {
     res.send(error);
   })
   }
-  //send_poll_email(req.body.email,`${pollId}`)
+  //Sendgrid API template: sends voting and result link to the creator
   const helper = require('sendgrid').mail;
   const fromEmail = new helper.Email("links@pollstar.com");
   const toEmail = new helper.Email(`${req.body.email}`);
@@ -97,7 +97,6 @@ app.post("/summary", (req, res) => {
   });
   res.redirect(`/summary/${pollId}`)
 })
-
 // Summary Page
 app.get("/summary/:pollId", (req, res) => {
   const userPollId = req.params.pollId;
@@ -114,11 +113,8 @@ app.get("/summary/:pollId", (req, res) => {
         name: results[0].name,
         email: results[0].email
       })
-      // res.render(`/summary/${userPollId}`)
-    })
-
+  })
 });
-
 //Voting Page
 app.get("/voting/:pollId", (req, res) => {
   return knex.select('*').from('poll_info')
@@ -159,7 +155,10 @@ app.post("/results", (req, res) => {
   knex.select('weight').from('poll_result')
   .where('id','=',result3)
   .then((result)=>{
+<<<<<<< HEAD
+=======
 
+>>>>>>> 54ec85552c5794be172c060484ddd043aa040751
     knex("poll_result").where("id",result3)
     .update({weight: (result[0].weight+3)})
     .then(function (count) {
@@ -185,6 +184,27 @@ app.post("/results", (req, res) => {
     .then(function (count) {
     })
   });
+<<<<<<< HEAD
+  //Sends email to the creator when a user submits a vote
+  knex("poll_info")
+  .select("email")
+  .where("pollid", "=", `${req.params.pollId}`)
+  .then((results) => {
+  const helper = require('sendgrid').mail;
+  const fromEmail = new helper.Email("links@pollstar.com");
+  //need to get email from the data base
+  const toEmail = new helper.Email(results[0].email);
+  const subject = "Someone Voted!";
+  const content = new helper.Content("text/plain", `Someone just voted on your poll, Check it out here:  http://localhost:8080/results/${pollId}`);
+  const mail = new helper.Mail(fromEmail, subject, toEmail, content);
+
+  const sg = require('sendgrid')(process.env.SENDGRID_API_KEY);
+  const request = sg.emptyRequest({
+    method: 'POST',
+    path: '/v3/mail/send',
+    body: mail.toJSON()
+  });
+=======
 
   const whatdis = req.body.fk
   const whatdisNew = whatdis[0]
@@ -207,6 +227,7 @@ app.post("/results", (req, res) => {
       path: '/v3/mail/send',
       body: mail.toJSON()
     });
+>>>>>>> 54ec85552c5794be172c060484ddd043aa040751
   sg.API(request, function (error, response) {
     if (error) {
       console.log("Error response received", error);
